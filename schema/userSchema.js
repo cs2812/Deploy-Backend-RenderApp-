@@ -9,4 +9,4 @@ const userScheam =new mongooes.Schema({
 })
 
 const user = mongooes.model("friend",userScheam)
-module.exports= user
+module.exports= user;

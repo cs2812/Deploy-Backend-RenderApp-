@@ -51,8 +51,4 @@ userRoute.post("/login",async(req,res)=>{
     }
 })
 
-
-
-
-
 module.exports=userRoute;
