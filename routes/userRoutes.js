@@ -7,8 +7,9 @@ const User = require("../schema/userSchema")
 const userRoute = express()
 
 userRoute.get("/",async(req,res)=>{
-    const data=await User.find()
-    res.send(data)
+    res.send("user route")
+    // const data=await User.find()
+    // res.send(data)
 })
 
 userRoute.post("/signup",async(req,res)=>{
