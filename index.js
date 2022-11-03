@@ -10,8 +10,8 @@ const port=3000
 app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 
-app.use("/user",userRoute)
-app.use("/todo",todoRoutes)
+// app.use("/user",userRoute)
+// app.use("/todo",todoRoutes)
 
 app.get("/",(req,res)=>{
     res.send("Hello Chetan {ADMIN}")
