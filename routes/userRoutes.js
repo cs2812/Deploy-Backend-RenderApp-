@@ -7,9 +7,14 @@ const User = require("../schema/userSchema")
 const userRoute = express()
 
 userRoute.get("/",async(req,res)=>{
-    res.send("user route")
-    // const data=await User.find()
-    // res.send(data)
+    
+    const data=await User.find()
+    res.send(data)
+})
+userRoute.delete("/:id",async(req,res)=>{
+    const {id}=req.params;
+    const data = await User.findByIdAndDelete(id)
+    res.send(data)
 })
 
 userRoute.post("/signup",async(req,res)=>{

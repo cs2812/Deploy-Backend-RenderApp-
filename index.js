@@ -1,6 +1,7 @@
 const express=require("express")
 const mongooes =require("mongoose")
-// const todoRoutes = require("./routes/todoRoutes")
+
+const todoRoutes = require("./routes/todoRoutes")
 
 const userRoute = require("./routes/userRoutes")
 const app = express()
@@ -11,12 +12,11 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 
 app.use("/user",userRoute)
-// app.use("/todo",todoRoutes)
+app.use("/todo",todoRoutes)
 
 app.get("/",(req,res)=>{
     res.send("Hello Chetan {ADMIN}")
 })
-
 
 
 app.listen(process.env.PORT || port,async()=>{
