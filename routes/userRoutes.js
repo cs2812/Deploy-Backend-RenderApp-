@@ -55,7 +55,7 @@ userRoute.post("/login",async(req,res)=>{
             expiresIn:"1days" // token will be expire after 1days 
         })
 
-        return res.send({ message:"Logged in successfull", token })
+        return res.send({ message:"Logged in successfull",user:find.username, token })
 
     }
     else{
