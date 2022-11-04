@@ -4,16 +4,13 @@ const Todo =require("../schema/todoSchema")
 
 const jwt = require("jsonwebtoken")
 
-const todoRoutes = express()
+const todoRoutes = express.Router()
 
 todoRoutes.use(express.json())
 
 
 // Get Todo Route 
 todoRoutes.get("/", async(req,res)=>{
-    
-    const data =await Todo.find()
-    res.send(data)
 
     const token = req.headers['token']
     try{
@@ -46,7 +43,6 @@ todoRoutes.get("/:id", async(req,res)=>{
     res.send(data)
 
 })
-
 
 // Post Todo Route
 todoRoutes.post("/",async(req,res)=>{

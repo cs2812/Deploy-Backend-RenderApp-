@@ -1,15 +1,15 @@
-const mongooes =require("mongoose")
+const mongoose =require("mongoose")
 
-const todoSchema = new mongooes.Schema({
+const todoSchema = new mongoose.Schema({
 
-    todo:{type:String,require:true},
-    status:{type:Boolean,require:true},
-    userId:{type:String,require:true},
+    todo:{type:String,required:true},
+    status:{type:Boolean,required:true},
+    userId:{type:String,required:true},
 
 })
 
-const todo = mongooes.model("todo",todoSchema)
+const Todo = mongoose.model("todo",todoSchema)
 
-module.exports= todo;
+module.exports= Todo;
 
 //6362c8ddd7cf15c301677012

@@ -1,16 +1,18 @@
-const argon2d = require("argon2")
+const argon2 = require("argon2")
 const express =require("express")
 const jwt = require("jsonwebtoken")
 
 const User = require("../schema/userSchema")
 
-const userRoute = express()
+const userRoute = express.Router()
 
 userRoute.get("/",async(req,res)=>{
     
     const data=await User.find()
     res.send(data)
 })
+
+
 userRoute.delete("/:id",async(req,res)=>{
     const {id}=req.params;
     const data = await User.findByIdAndDelete(id)
@@ -18,24 +20,31 @@ userRoute.delete("/:id",async(req,res)=>{
 })
 
 userRoute.post("/signup",async(req,res)=>{
-
-    const {username,email,password}=req.body;
-    const hash=await argon2d.hash(password); // for save password
-
-    const user=new User({username,email,hash})
-    // res.send({username,email,hash})
-    await user.save();
-    res.status(201).send("SignUp Successful")
-
-})
+    // 201 for create somthing
+    const {username,password,email}=req.body;
+    if(!password && !username && email){
+        return res.status(401).send("please fill detail")
+    }
+    const hash=await argon2.hash(password); // for save password
+    
+    try{
+        const user=new User({username,email,hash})
+        await user.save();
+        
+        res.status(201).send("User Signup Successfully ")
+    }
+    catch{
+        res.status(401).send("Somthing went worong")
+    }
+});
 
 userRoute.post("/login",async(req,res)=>{
 
-    const {username,password}=req.body;
+    const {email,password}=req.body;
 
-    const find =await User.findOne({username}) // it will give you object 
+    const find =await User.findOne({email}) // it will give you object 
     
-    const verify = await argon2d.verify(find.hash , password)
+    const verify = await argon2.verify(find.hash , password)
 
     if(verify){
 
@@ -47,7 +56,10 @@ userRoute.post("/login",async(req,res)=>{
         })
 
         return res.send({ message:"Logged in successfull", token })
-    
+
+    }
+    else{
+        return res.status(401).send("Login Again")
     }
 })
 

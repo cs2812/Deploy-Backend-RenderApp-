@@ -1,12 +1,12 @@
-const mongooes =require("mongoose")
+const mongoose =require("mongoose")
 
-const userScheam =new mongooes.Schema({
+const userScheam =new mongoose.Schema({
 
-    username:{type:String,require:true},
-    email:{type:String,require:true,unique:true},
-    hash:{type:String,require:true},
+    username:{type:String,required:true},
+    email:{type:String,required:true,unique:true},
+    hash:{type:String,required:true},
 
 })
 
-const user = mongooes.model("friend",userScheam)
-module.exports= user;
+const User = mongoose.model("userdata",userScheam)
+module.exports= User;
