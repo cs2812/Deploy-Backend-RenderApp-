@@ -25,16 +25,16 @@ userRoute.post("/signup",async(req,res)=>{
     if(!password && !username && email){
         return res.status(401).send("please fill detail")
     }
+
     const hash=await argon2.hash(password); // for save password
     
     try{
         const user=new User({username,email,hash})
         await user.save();
-        
         res.status(201).send("User Signup Successfully ")
     }
     catch{
-        res.status(401).send("Somthing went worong")
+        res.status(401).send("Somthing went worong or Email should be uniqe")
     }
 });
 
@@ -59,7 +59,7 @@ userRoute.post("/login",async(req,res)=>{
 
     }
     else{
-        return res.status(401).send("Login Again")
+        return res.status(401).send({messaage:"Login Again"})
     }
 })
 
