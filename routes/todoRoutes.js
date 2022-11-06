@@ -27,6 +27,13 @@ todoRoutes.get("/", async(req,res)=>{
         }
     
 })
+// Get Single Todo Route
+todoRoutes.get("/:id", async(req,res)=>{
+    const id =req.params.id
+    const data =await Todo.findOne({_id:id})
+    res.send(data)
+
+})
 
 // delete single todo
 todoRoutes.delete("/:id", async (req,res)=>{
@@ -36,13 +43,6 @@ todoRoutes.delete("/:id", async (req,res)=>{
 })
 
 
-// Get Single Todo Route
-todoRoutes.get("/:id", async(req,res)=>{
-    const id =req.params.id
-    const data =await Todo.findOne({_id:id})
-    res.send(data)
-
-})
 
 // Post Todo Route
 todoRoutes.post("/",async(req,res)=>{
@@ -62,5 +62,15 @@ todoRoutes.post("/",async(req,res)=>{
         res.status(401).send({message:"Login for Authentication"})
     } 
 })
+
+// Put Todo Route
+todoRoutes.patch("/:id", async (req, res) => {
+    const updatedInfo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).send("Todo Updated");
+  });
 
 module.exports=todoRoutes;
