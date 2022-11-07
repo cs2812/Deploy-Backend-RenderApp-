@@ -22,8 +22,12 @@ todoRoutes.get("/", async(req,res)=>{
         
         res.send(data)
         }
-        else{
+        else if(!token){
             res.status(401).send({message:"Login for Authentication"})
+        }
+        else{
+            res.status(500).send({message:"Somthing is Wrong"})
+
         }
     
 })
@@ -42,8 +46,6 @@ todoRoutes.delete("/:id", async (req,res)=>{
     res.send(data)
 })
 
-
-
 // Post Todo Route
 todoRoutes.post("/",async(req,res)=>{
     const token = req.headers['token']
@@ -55,15 +57,19 @@ todoRoutes.post("/",async(req,res)=>{
         const data=new Todo({todo,status,userId:decode.id}) 
 
         await data.save();
-        res.status(201).send({message:"Add todo Successful"})
+        res.status(200).send(data)
     
     }
-    else{
+    else if(!token){
         res.status(401).send({message:"Login for Authentication"})
+    }
+    else{
+        res.status(500).send({message:"Somthing is Wrong"})
+
     } 
 })
 
-// Put Todo Route
+// Patch Todo Route
 todoRoutes.patch("/:id", async (req, res) => {
     const updatedInfo = await Todo.findByIdAndUpdate(
       req.params.id,
