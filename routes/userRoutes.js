@@ -43,24 +43,31 @@ userRoute.post("/login",async(req,res)=>{
     const {email,password}=req.body;
 
     const find =await User.findOne({email}) // it will give you object 
+    if(!find){
+        res.send({messaage:"Fill Right Details"})
+    }
     
     const verify = await argon2.verify(find.hash , password)
 
-    if(verify){
-
-       const token = jwt.sign(
-        { id:find._id, name:find.username, email:find.email },//you can give whatever you want to give or keep it empty
-        "SECRET1234", // You can write whatever you want.
-        { 
-            expiresIn:"1days" // token will be expire after 1days 
-        })
-
-        return res.send({ message:"Logged in successfull",user:find.username, token })
-
+    try{
+        if(verify){
+    
+           const token = jwt.sign(
+            { id:find._id, name:find.username, email:find.email },//you can give whatever you want to give or keep it empty
+            "SECRET1234", // You can write whatever you want.
+            { 
+                expiresIn:"1days" // token will be expire after 1days 
+            })
+    
+            return res.send({ message:"Logged in successfull",user:find.username, token })
+    
+        }
     }
-    else{
-        return res.status(401).send({messaage:"Login Again"})
+    catch{
+
+        return res.status(401).send({messaage:"Fill Right Details"})
     }
+
 })
 
 module.exports=userRoute;
