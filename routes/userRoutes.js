@@ -13,21 +13,19 @@ userRoute.get("/",async(req,res)=>{
 })
 
 
-userRoute.delete("/:id",async(req,res)=>{
-    const {id}=req.params;
-    const data = await User.findByIdAndDelete(id)
-    res.send(data)
-})
+// userRoute.delete("/:id",async(req,res)=>{
+//     const {id}=req.params;
+//     const data = await User.findByIdAndDelete(id)
+//     res.send(data)
+// })
 
 userRoute.post("/signup",async(req,res)=>{
     // 201 for create somthing
     const {username,password,email}=req.body;
-    if(!password && !username && email){
-        return res.status(401).send("please fill detail")
+    if(!password || !username || !email){
+        return res.status(401).send("please fill All details")
     }
-
     const hash=await argon2.hash(password); // for save password
-    
     try{
         const user=new User({username,email,hash})
         await user.save();
@@ -36,14 +34,18 @@ userRoute.post("/signup",async(req,res)=>{
     catch{
         res.status(401).send("Somthing went worong or Email should be uniqe")
     }
+       
 });
 
 userRoute.post("/login",async(req,res)=>{
 
     const {email,password}=req.body;
+    if(!email || !password){
+        return res.status(401).send("please fill All details")
+    }
 
     const find =await User.findOne({email}) // it will give you object 
-    if(!find){
+    if(!find.username){
         res.send({messaage:"Fill Right Details"})
     }
     

@@ -13,22 +13,22 @@ todoRoutes.use(express.json())
 todoRoutes.get("/", async(req,res)=>{
     // res.send("test")
     
-        const token = req.headers['token']
-        if(token){
-        const decode= jwt.decode(token)
+    const token = req.headers['token']
+    if(token){
+    const decode= jwt.decode(token)
 
-        // res.send(decode)
-        const data =await Todo.find({userId : decode.id})
-        
-        res.send(data)
-        }
-        else if(!token){
-            res.status(401).send({message:"Login for Authentication"})
-        }
-        else{
-            res.status(500).send({message:"Somthing is Wrong"})
+    // res.send(decode)
+    const data =await Todo.find({userId : decode.id})
+    
+    res.send(data)
+    }
+    else if(!token){
+        res.status(401).send({message:"Login for Authentication"})
+    }
+    else{
+        res.status(500).send({message:"Somthing is Wrong"})
 
-        }
+    }
     
 })
 // Get Single Todo Route

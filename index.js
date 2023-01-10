@@ -5,7 +5,7 @@ const todoRoutes = require("./routes/todoRoutes")
 
 const userRoute = require("./routes/userRoutes")
 const app = express()
-const port=4000
+const port=8000
 
 
 
