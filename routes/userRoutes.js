@@ -12,12 +12,11 @@ userRoute.get("/",async(req,res)=>{
     res.send(data)
 })
 
-
-// userRoute.delete("/:id",async(req,res)=>{
-//     const {id}=req.params;
-//     const data = await User.findByIdAndDelete(id)
-//     res.send(data)
-// })
+userRoute.delete("/:id",async(req,res)=>{
+    const {id}=req.params;
+    const data = await User.findByIdAndDelete(id)
+    res.send(data)
+})
 
 userRoute.post("/signup",async(req,res)=>{
     // 201 for create somthing
@@ -45,8 +44,9 @@ userRoute.post("/login",async(req,res)=>{
     }
 
     const find =await User.findOne({email}) // it will give you object 
-    if(!find.username){
-        res.send({messaage:"Fill Right Details"})
+    // console.log("Find",find)
+    if(find===null || !find || !find.username){
+       return res.send({messaage:"Fill Right Details"})
     }
     
     const verify = await argon2.verify(find.hash , password)
@@ -71,5 +71,4 @@ userRoute.post("/login",async(req,res)=>{
     }
 
 })
-
 module.exports=userRoute;
