@@ -1,5 +1,6 @@
 const express=require("express")
 const mongooes =require("mongoose")
+const cors = require('cors')
 
 const todoRoutes = require("./routes/todoRoutes")
 
@@ -11,6 +12,7 @@ const port=8000
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json())
+app.use(cors())
 
 app.use("/user",userRoute)
 app.use("/todo",todoRoutes)

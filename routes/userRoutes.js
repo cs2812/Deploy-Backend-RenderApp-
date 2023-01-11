@@ -22,16 +22,16 @@ userRoute.post("/signup",async(req,res)=>{
     // 201 for create somthing
     const {username,password,email}=req.body;
     if(!password || !username || !email){
-        return res.status(401).send("please fill All details")
+        return res.status(401).send({message:"please fill All details"})
     }
     const hash=await argon2.hash(password); // for save password
     try{
         const user=new User({username,email,hash})
         await user.save();
-        res.status(201).send("User Signup Successfully ")
+        res.status(201).send({message:"User Signup Successfully"})
     }
     catch{
-        res.status(401).send("Somthing went worong or Email should be uniqe")
+        res.send({message:"Somthing went worong or Email should be uniqe"})
     }
        
 });
@@ -46,7 +46,7 @@ userRoute.post("/login",async(req,res)=>{
     const find =await User.findOne({email}) // it will give you object 
     // console.log("Find",find)
     if(find===null || !find || !find.username){
-       return res.send({messaage:"Fill Right Details"})
+       return res.send({message:"Fill Right Details OR Signup again"})
     }
     
     const verify = await argon2.verify(find.hash , password)
@@ -67,7 +67,7 @@ userRoute.post("/login",async(req,res)=>{
     }
     catch{
 
-        return res.status(401).send({messaage:"Fill Right Details"})
+        return res.send({message:"Fill Right Details"})
     }
 
 })
